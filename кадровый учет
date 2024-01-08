@@ -1,0 +1,141 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        const string CommandAddDossier = "1";
+        const string CommandDisplayAllDossier = "2";
+        const string CommandDeleteDossier = "3";
+        const string CommandSearchLastName = "4";
+        const string CommandExit = "5";
+        string[] initials = new string[0];
+        string[] jobTitle = new string[0];
+        string selectionOperartion;
+        bool isExit = true;
+
+        while (isExit)
+        {
+            Console.WriteLine("Добро пожаловать в программу по кадровому учету!");
+            Console.WriteLine("Выберите нужную Вам операцию: ");
+            Console.WriteLine($"{CommandAddDossier} - Добавить досье в программу.");
+            Console.WriteLine($"{CommandDisplayAllDossier} - Вывести все досье.");
+            Console.WriteLine($"{CommandDeleteDossier} - Удалить досье из программы.");
+            Console.WriteLine($"{CommandSearchLastName} - Найти досье по фамилии.");
+            Console.WriteLine($"{CommandExit} - Выйти из программы.");
+            selectionOperartion = Console.ReadLine();
+
+            switch (selectionOperartion)
+            {
+                case CommandAddDossier:
+                    FillingDossier(ref initials, ref jobTitle);
+                    break;
+                   
+                case CommandDisplayAllDossier:
+                    ShowDossiers(initials, jobTitle);
+                    break;
+
+                case CommandDeleteDossier:
+                    DeleteDossier(ref initials, ref jobTitle);
+                    break;
+
+                case CommandSearchLastName:
+                    SeachDossier(initials, jobTitle);
+                    break;
+
+                case CommandExit:
+                    isExit = false;
+                    Console.WriteLine("Вы вышли из программы!");
+                    break;
+                default:
+                    Console.WriteLine("Вы выбрали не верную операцию!");
+                    break;
+            }
+        }
+    }
+
+    private static void FillingDossier(ref string[] initials, ref string[] jobTitle)
+    {
+        Console.Write("Введите ФИО сотрудника: ");
+        string name = Console.ReadLine();
+        Console.Write("Введите должность сотрудника: ");
+        string job = Console.ReadLine();
+        initials = ResizeArray(initials, name);
+        jobTitle = ResizeArray(jobTitle, job);
+    }
+
+    private static string[] ResizeArray(string[] array, string text)
+    {
+        string[] tempArray = new string[array.Length + 1];
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            tempArray[i] = array[i];
+        }
+
+        tempArray[tempArray.Length - 1] = text;
+        array = tempArray;
+        return array;
+    }
+
+    private static void ShowDossiers(string[] initials, string[] jobTitle)
+    {
+        int index = 1;
+
+        for (int i = 0; i < initials.Length; i++)
+        {
+            Console.WriteLine($"{index} - ФИО: {initials[i]}, должность: {jobTitle[i]}.");
+            index++;
+        }
+    }
+
+    private static void DeleteDossier(ref string[] initials, ref string[] jobTitle)
+    {
+        Console.Write("Введите номер досье: ");
+        int number = Convert.ToInt32(Console.ReadLine());
+
+        if (number > 0 && number <= initials.Length)
+        {
+            int index = number - 1;
+            initials = DecreaseArray(initials, index);
+            jobTitle = DecreaseArray(jobTitle, index);
+            Console.WriteLine($"Досье с номером {number} удалено!");
+        }
+        else
+        {
+            Console.WriteLine("Такого досье нету в программе!");
+        }
+    }
+
+    private static string[] DecreaseArray(string[] array, int index)
+    {
+        string[] tempArray = new string[array.Length - 1];
+
+        for (int i = 0; i < index; i++)
+        {
+            tempArray[i] = array[i];
+        }
+
+        for (int i = index; i < array.Length - 1; i++)
+        {
+            tempArray[i] = array[i + 1];
+        }
+
+        array = tempArray;
+        return array;
+    }
+
+    private static void SeachDossier(string[] initials, string[] jobTitle)
+    {
+        Console.WriteLine("Введите фамилию для поиска: ");
+        string surname = Console.ReadLine();
+
+        for (int i = 0; i < initials.Length; i++)
+        {
+            string[] arraySurname = initials[i].Split(' ');
+
+            if (arraySurname[0].ToLower() == surname.ToLower())
+            {
+                Console.WriteLine($"{i + 1} - ФИО:{initials[i]}, должность {jobTitle[i]} ");
+            }
+        }
+    }
+}
