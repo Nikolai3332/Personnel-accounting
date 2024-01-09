@@ -7,9 +7,11 @@ internal class Program
         const string CommandDeleteDossier = "3";
         const string CommandSearchLastName = "4";
         const string CommandExit = "5";
-        string[] initials = new string[0];
-        string[] jobTitle = new string[0];
+
+        string[] names = new string[0];
+        string[] jobTitles = new string[0];
         string selectionOperartion;
+
         bool isExit = true;
 
         while (isExit)
@@ -26,25 +28,26 @@ internal class Program
             switch (selectionOperartion)
             {
                 case CommandAddDossier:
-                    FillingDossier(ref initials, ref jobTitle);
+                    FillingDossier(ref names, ref jobTitles);
                     break;
                    
                 case CommandDisplayAllDossier:
-                    ShowDossiers(initials, jobTitle);
+                    ShowDossiers(names, jobTitles);
                     break;
 
                 case CommandDeleteDossier:
-                    DeleteDossier(ref initials, ref jobTitle);
+                    DeleteDossier(ref names, ref jobTitles);
                     break;
 
                 case CommandSearchLastName:
-                    SeachDossier(initials, jobTitle);
+                    SeachDossier(names, jobTitles);
                     break;
 
                 case CommandExit:
                     isExit = false;
                     Console.WriteLine("Вы вышли из программы!");
                     break;
+
                 default:
                     Console.WriteLine("Вы выбрали не верную операцию!");
                     break;
@@ -52,14 +55,16 @@ internal class Program
         }
     }
 
-    private static void FillingDossier(ref string[] initials, ref string[] jobTitle)
+    private static void FillingDossier(ref string[] names, ref string[] jobTitles)
     {
         Console.Write("Введите ФИО сотрудника: ");
         string name = Console.ReadLine();
+
         Console.Write("Введите должность сотрудника: ");
         string job = Console.ReadLine();
-        initials = ResizeArray(initials, name);
-        jobTitle = ResizeArray(jobTitle, job);
+
+        names = ResizeArray(names, name);
+        jobTitles = ResizeArray(jobTitles, job);
     }
 
     private static string[] ResizeArray(string[] array, string text)
@@ -76,27 +81,27 @@ internal class Program
         return array;
     }
 
-    private static void ShowDossiers(string[] initials, string[] jobTitle)
+    private static void ShowDossiers(string[] names, string[] jobTitles)
     {
         int index = 1;
 
-        for (int i = 0; i < initials.Length; i++)
+        for (int i = 0; i < names.Length; i++)
         {
-            Console.WriteLine($"{index} - ФИО: {initials[i]}, должность: {jobTitle[i]}.");
+            Console.WriteLine($"{index} - ФИО: {names[i]}, должность: {jobTitles[i]}.");
             index++;
         }
     }
 
-    private static void DeleteDossier(ref string[] initials, ref string[] jobTitle)
+    private static void DeleteDossier(ref string[] names, ref string[] jobTitles)
     {
         Console.Write("Введите номер досье: ");
         int number = Convert.ToInt32(Console.ReadLine());
 
-        if (number > 0 && number <= initials.Length)
+        if (number > 0 && number <= names.Length)
         {
             int index = number - 1;
-            initials = DecreaseArray(initials, index);
-            jobTitle = DecreaseArray(jobTitle, index);
+            names = DecreaseArray(names, index);
+            jobTitles = DecreaseArray(jobTitles, index);
             Console.WriteLine($"Досье с номером {number} удалено!");
         }
         else
@@ -123,18 +128,20 @@ internal class Program
         return array;
     }
 
-    private static void SeachDossier(string[] initials, string[] jobTitle)
+    private static void SeachDossier(string[] names, string[] jobTitles)
     {
         Console.WriteLine("Введите фамилию для поиска: ");
         string surname = Console.ReadLine();
 
-        for (int i = 0; i < initials.Length; i++)
+        char[] delimiterChars = { ' ', ' ', ' ' };
+
+        for (int i = 0; i < names.Length; i++)
         {
-            string[] arraySurname = initials[i].Split(' ');
+            string[] arraySurname = names[i].Split(delimiterChars);
 
             if (arraySurname[0].ToLower() == surname.ToLower())
             {
-                Console.WriteLine($"{i + 1} - ФИО:{initials[i]}, должность {jobTitle[i]} ");
+                Console.WriteLine($"{i + 1} - ФИО:{names[i]}, должность {jobTitles[i]} ");
             }
         }
     }
