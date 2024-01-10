@@ -5,7 +5,7 @@ internal class Program
         const string CommandAddDossier = "1";
         const string CommandDisplayAllDossier = "2";
         const string CommandDeleteDossier = "3";
-        const string CommandSearchLastName = "4";
+        const string CommandShowBySurname = "4";
         const string CommandExit = "5";
 
         string[] names = new string[0];
@@ -21,7 +21,7 @@ internal class Program
             Console.WriteLine($"{CommandAddDossier} - Добавить досье в программу.");
             Console.WriteLine($"{CommandDisplayAllDossier} - Вывести все досье.");
             Console.WriteLine($"{CommandDeleteDossier} - Удалить досье из программы.");
-            Console.WriteLine($"{CommandSearchLastName} - Найти досье по фамилии.");
+            Console.WriteLine($"{CommandShowBySurname} - Найти досье по фамилии.");
             Console.WriteLine($"{CommandExit} - Выйти из программы.");
             selectionOperartion = Console.ReadLine();
 
@@ -39,8 +39,8 @@ internal class Program
                     DeleteDossier(ref names, ref jobTitles);
                     break;
 
-                case CommandSearchLastName:
-                    SeachDossier(names, jobTitles);
+                case CommandShowBySurname:
+                    ShowBySurname(names, jobTitles);
                     break;
 
                 case CommandExit:
@@ -128,7 +128,7 @@ internal class Program
         return array;
     }
 
-    private static void SeachDossier(string[] names, string[] jobTitles)
+    private static void ShowBySurname(string[] names, string[] jobTitles)
     {
         Console.WriteLine("Введите фамилию для поиска: ");
         string surname = Console.ReadLine();
