@@ -28,9 +28,9 @@ internal class Program
             switch (selectionOperartion)
             {
                 case CommandAddDossier:
-                    FillingDossier(ref names, ref jobTitles);
+                    AddDossier(ref names, ref jobTitles);
                     break;
-                   
+
                 case CommandDisplayAllDossier:
                     ShowDossiers(names, jobTitles);
                     break;
@@ -55,7 +55,7 @@ internal class Program
         }
     }
 
-    private static void FillingDossier(ref string[] names, ref string[] jobTitles)
+    private static void AddDossier(ref string[] names, ref string[] jobTitles)
     {
         Console.Write("Введите ФИО сотрудника: ");
         string name = Console.ReadLine();
@@ -63,11 +63,11 @@ internal class Program
         Console.Write("Введите должность сотрудника: ");
         string job = Console.ReadLine();
 
-        names = ResizeArray(names, name);
-        jobTitles = ResizeArray(jobTitles, job);
+        names = AddElement(names, name);
+        jobTitles = AddElement(jobTitles, job);
     }
 
-    private static string[] ResizeArray(string[] array, string text)
+    private static string[] AddElement(string[] array, string text)
     {
         string[] tempArray = new string[array.Length + 1];
 
@@ -78,7 +78,7 @@ internal class Program
 
         tempArray[tempArray.Length - 1] = text;
         array = tempArray;
-        return array;
+        return tempArray;
     }
 
     private static void ShowDossiers(string[] names, string[] jobTitles)
